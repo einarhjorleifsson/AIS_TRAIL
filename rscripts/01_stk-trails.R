@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
 # run this in terminal as:
-#  nohup R < R/01_trails.R --vanilla > logs/01_trails_YYYY_MM-DD.log &
+#  nohup R < R/01_stk-trails.R --vanilla > logs/01_stk-trails_YYYY_MM-DD.log &
 
 lubridate::now()
 
@@ -149,7 +149,7 @@ for(v in 1:length(VID)) {
               #  year for all vessels
               YEARS <- year(min(trailv$time)):year(max(trailv$time))
               for(y in 1:length(YEARS)) {
-                pth <- paste0("data/trips_y", YEARS[y], "_v", str_pad(VIDv, width = 4, pad = "0"), ".rds") 
+                pth <- paste0("trails/stk-trails_y", YEARS[y], "_v", str_pad(VIDv, width = 4, pad = "0"), ".rds") 
                 tmp <- trailv |> filter(year(time) == YEARS[y]) 
                 if(nrow(tmp) > 0) tmp |> write_rds(pth)
               }
