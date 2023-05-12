@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
 # run this in terminal as:
-#  nohup R < R/01_stk-trails.R --vanilla > logs/01_stk-trails_YYYY_MM-DD.log &
+#  nohup R < rscripts/01_stk-trails.R --vanilla > lgs/01_stk-trails_YYYY_MM-DD.log &
 
 lubridate::now()
 
@@ -15,21 +15,12 @@ library(ramb)
 library(omar)
 library(argosfilter)
 
-island <- 
-  gisland::read_strandlinur() |> 
-  mutate(area = st_area(geom)) |> 
-  filter(area == max(area)) |> 
-  mutate(on_land = TRUE) |> 
-  select(on_land) |> 
-  st_transform(crs = 3057) |> 
-  st_buffer(dist = -100) |> 
-  st_transform(crs = 4326)
-
-harbour <- 
-  sf::read_sf("~/stasi/gis/harbours/gpkg/harbours-hidstd_2023-05-11.gpkg")
+island <- read_sf("data-raw/island.gpkg")
+harbour <- read_sf("data-raw/harbours-hidstd.gpkg")
 harbours.standards <- 
-  readxl::read_excel("~/stasi/gis/harbours/data-raw/stk_harbours.xlsx") |> 
+  read_csv("data-raw/stk_harbours.csv") |> 
   select(hid, hid_std)
+
 con <- connect_mar()
 
 YEARS <- 2007:2023
